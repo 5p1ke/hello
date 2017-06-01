@@ -1,7 +1,7 @@
 ##### AWS Linux start script
 
 #!/bin/bash
-sudo yum install -y mc python git nginx
+sudo yum install -y mc python git nginx gcc
 sudo pip install --upgrade --user awscli
 cd /tmp
 sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
@@ -35,11 +35,16 @@ sudo echo "hV9kiXmHenzZxX3jN7GGYiFAJiDC6W+0jsogVpoVy/h4mo4JHNs=" >> /root/.ssh/i
 sudo echo "-----END RSA PRIVATE KEY-----" >>/root/.ssh/id_rsa
 sudo chmod 400 /root/.ssh/id_rsa
 
-mkdir /mnt/data
-sed -i 's/1024/5000/g' /etc/nginx/nginx.conf
-sed -i '/\#        location \//d' /etc/nginx/nginx.conf
-sed -i '/location \/ /a proxy_pass http\:\/\/localhost\:1337\/\;' /etc/nginx/nginx.conf
+sudo mkdir /mnt/data
+sudo sed -i 's/1024/5000/g' /etc/nginx/nginx.conf
+sudo sed -i '/\#        location \//d' /etc/nginx/nginx.conf
+sudo sed -i '/location \/ /a proxy_pass http\:\/\/localhost\:1337\/\;' /etc/nginx/nginx.conf
 
-curl --silent --location https://rpm.nodesource.com/setup_4.x | bash -
-yum install -y nodejs
+sudo curl --silent --location https://rpm.nodesource.com/setup_4.x | bash -
+sudo yum install -y nodejs
 
+sudo cd /mnt/data
+sudo git clone git@github.com:PoaTek/Kawa-ParseServer.git
+sudo cd /mnt/data/Kawa-ParseServer/CloudCode
+sudo npm install 
+sudo screen -dm npm start

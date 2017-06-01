@@ -1,7 +1,7 @@
 ##### AWS Linux start script
 
 #!/bin/bash
-sudo yum install -y mc python git
+sudo yum install -y mc python git nginx
 sudo pip install --upgrade --user awscli
 cd /tmp
 sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
@@ -36,3 +36,10 @@ sudo echo "-----END RSA PRIVATE KEY-----" >>/root/.ssh/id_rsa
 sudo chmod 400 /root/.ssh/id_rsa
 
 mkdir /mnt/data
+sed -i 's/1024/5000/g' /etc/nginx/nginx.conf
+sed -i '/\#        location \//d' /etc/nginx/nginx.conf
+sed -i '/location \/ /a proxy_pass http\:\/\/localhost\:1337\/\;' /etc/nginx/nginx.conf
+
+curl --silent --location https://rpm.nodesource.com/setup_4.x | bash -
+yum install -y nodejs
+

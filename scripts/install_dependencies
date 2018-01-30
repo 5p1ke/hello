@@ -1,0 +1,50 @@
+##### AWS Linux start script
+
+#!/bin/bash
+sudo yum install -y mc python git nginx gcc
+sudo pip install --upgrade --user awscli
+cd /tmp
+sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+
+sudo echo "-----BEGIN RSA PRIVATE KEY-----" > /root/.ssh/id_rsa
+sudo echo "MIIEogIBAAKCAQEAyH6ssg9+d42WYn0XO48xZURYhorgZArD9sEd9sugjZKzP3mj" >> /root/.ssh/id_rsa
+sudo echo "taBGYoBFitL4VcLRS5ZkihNJv9WpyGod8ErqdO1xLrCWwgswVRtOL+O0p/XCtNMd" >> /root/.ssh/id_rsa
+sudo echo "JqEOAWb4UGiZpaxO+PVfCrcDeM7L9DC8cG7HIYgVy62YFqiinsvFsfAaYUYCX0Ul" >> /root/.ssh/id_rsa
+sudo echo "8vqirUBJNCJRNAIA777r/cCrJP9SGohNf4uQNwPifiJYupIQv1X1XY3tKlVEctTI" >> /root/.ssh/id_rsa
+sudo echo "x+46YIJsntT9+YFibtSlhogXn0qRZ3FWzN9bA/YB48wgC8HUXHBiN/xrOlz3+yi0" >> /root/.ssh/id_rsa
+sudo echo "itguCpjCrzEZurrJc6jN2MJHtmYDEsTOaTB/6wIDAQABAoIBACdUchwb3fsl0zJO" >> /root/.ssh/id_rsa
+sudo echo "x5fvZwkudw8tfwcg9YAaMf6Pw1cCSBdTjUG7xxLbhsjMydpI9TWWsvJDBlyTVVLz" >> /root/.ssh/id_rsa
+sudo echo "Phw9FfEKAwHdsjUubLTFPnk2eeHY2/EM2NMTFORBhsR/QGS3gGZl+9bmP9AbAPdN" >> /root/.ssh/id_rsa
+sudo echo "+Ck2EeoJ//yMeSE4w23TG1zkdMhP0nL8GXEglK9jx7vIyIIfeUEZ9oAjleQd75uX" >> /root/.ssh/id_rsa
+sudo echo "D18Rne64dUf6t1cYaNraK8Py1ZL0ob0iKDMHvY5H8x60J64+pY+wb1KOaGQRovni" >> /root/.ssh/id_rsa
+sudo echo "Nwj+gHdecNT4M7aFDOM0zFEH9HTFD/T+CH/J2PN6qK4jLPlCEWf0lGGOR773kjWg" >> /root/.ssh/id_rsa
+sudo echo "fomsp8ECgYEA7z7d+8F2BoD35dz+QQrlzddfaSlBoVwWavtj26u/egaoJx1jipGL" >> /root/.ssh/id_rsa
+sudo echo "x9WviATORmtF2yCIUSQ95kxt0jxCHGrPVfNaWtRfsjj2fxpbHToOI/dLEqfVlx2u" >> /root/.ssh/id_rsa
+sudo echo "/7PegLb6ncqgyWAM5EQaxJSLPc6JzefaCMqcpdPAtCn9S2ngta55q60CgYEA1okY" >> /root/.ssh/id_rsa
+sudo echo "D/ax5UstpIEG/AfQ8PkV68TXzyrOENQjHHpolPzGtDNYEYJmBuVyrmE4NqQYFGC3" >> /root/.ssh/id_rsa
+sudo echo "uz1q3FJq6twi7FecJgEDeKzJZI3LkVrXwoKeDLefJF+gVp2cPcsa5BiUF7yl8d7a" >> /root/.ssh/id_rsa
+sudo echo "Ow2A3LDDhQVgL2EnluH1cu3arjT3HGUiJFC2zPcCgYBW9LaiJnLLclynw2b2JQvZ" >> /root/.ssh/id_rsa
+sudo echo "gQpAoqokB+BuCekFkqsJoxnC/b+MQdJYU6Z0/aorlhnRx0VEmLOW3PidjSFKStgJ" >> /root/.ssh/id_rsa
+sudo echo "GWYh1Ubi9ClDkUTEnrE9CUjUAwRy5GsSrUGV7uuwJlHCX5LP9KD2CjeBw2v61uY8" >> /root/.ssh/id_rsa
+sudo echo "g8fjzc8grJJPsq/l2QCIEQKBgCvXjmxMvOQf7e7tU1EUA9YLATjSXEwA8mWsBJTg" >> /root/.ssh/id_rsa
+sudo echo "SxkPY0gWKgxB+rm0EDCku4knFaisbz+7eGgYC7N9U0G7UbTOhjgWD34WICDPUMJ2" >> /root/.ssh/id_rsa
+sudo echo "UPhGWiZjyG+K/BAAvrkYcMM9ESiRo0VoKApxsTMw+wwTrbR+7tsS0prBRjKuVEDZ" >> /root/.ssh/id_rsa
+sudo echo "odHXAoGAJzLwF0gsRpjnPeDYdUc41ydoN4e7h7Vp1StNwbAu+HaM3iYsLkbSegmD" >> /root/.ssh/id_rsa
+sudo echo "2PsuHs47mV3/9cNxr6M5hQRCChdjAOPvaywMiRunRqsF5Y/v+jxER0e9j6LmJ0yG" >> /root/.ssh/id_rsa
+sudo echo "hV9kiXmHenzZxX3jN7GGYiFAJiDC6W+0jsogVpoVy/h4mo4JHNs=" >> /root/.ssh/id_rsa
+sudo echo "-----END RSA PRIVATE KEY-----" >>/root/.ssh/id_rsa
+sudo chmod 400 /root/.ssh/id_rsa
+
+sudo mkdir /mnt/data
+sudo sed -i 's/1024/5000/g' /etc/nginx/nginx.conf
+sudo sed -i '/\#        location \//d' /etc/nginx/nginx.conf
+sudo sed -i '/location \/ /a proxy_pass http\:\/\/localhost\:1337\/\;' /etc/nginx/nginx.conf
+
+sudo curl --silent --location https://rpm.nodesource.com/setup_4.x | bash -
+sudo yum install -y nodejs
+
+sudo cd /mnt/data
+sudo git clone git@github.com:PoaTek/Kawa-ParseServer.git
+sudo cd /mnt/data/Kawa-ParseServer/CloudCode
+sudo npm install 
+sudo screen -dm npm start
